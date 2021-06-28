@@ -1,0 +1,81 @@
+version: "3"
+
+services:
+  portainer:
+    image: nightz/portainer:latest
+    restart: always
+    hostname: portainer
+    ports:
+    - "9000:9000"
+    volumes:
+    - /mnt/data/portainer:/data
+    - /var/run/docker.sock:/var/run/docker.sock
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50M"
+        max-file: "1"
+  nginx:
+    image: nightz/nginx:latest
+    restart: always
+    hostname: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./deploy/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./deploy/nginx/conf.d:/etc/nginx/conf.d
+      - ./static:/root/deployment/static
+    depends_on:
+      - deployment
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50M"
+        max-file: "1"
+  redis:
+    image: nightz/redis:latest
+    restart: always
+    hostname: redis
+    ports:
+      - "6379:6379"  # 暴露主机端口 如果不指定，可以在启动容器的时候指定
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50M"
+        max-file: "1"
+
+  postgresql:
+    image: nightz/postgres:11
+    restart: always
+    hostname: postgresql
+    volumes:
+      - /mnt/data/postgresql:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=deployment
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50M"
+        max-file: "1"
+
+  deployment:
+    image: nightz/deployment:latest
+    restart: always
+    hostname: deployment
+    volumes:
+      - .:/app
+    command: sh start.sh
+    ports:
+      - "8888:8888"
+    depends_on:
+      - redis
+      - postgresql
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50M"
+        max-file: "1"
