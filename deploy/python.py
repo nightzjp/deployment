@@ -30,3 +30,26 @@ wget https://bootstrap.pypa.io/get-pip.py  --no-check-certificate
 python3.6 get-pip.py
 
 """
+
+"""
+分享流程
+    前期准备
+        1. 搭建基础Django框架
+        2. 通过编辑器运行
+    一、(基础部署)
+        1. 代码放在服务器
+        2. 阉割部署
+        3. 常规化部署
+        4. 静态文件收集
+        5. 静态文件配置
+    二、(单机部署)
+        1. 服务器打包镜像
+        2. 容器部署
+        3. compose构建
+    三、(多机部署)
+        1. 镜像推送至docker-hub
+        2. 多机一键部署
+        
+    ...负载均衡高可用
+
+"""
