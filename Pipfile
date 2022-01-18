@@ -8,6 +8,7 @@ django-simpleui = "*"
 psycopg2-binary = "*"
 channels = "*"
 channels-redis = "*"
+docutils = "*"
 
 [dev-packages]
 
