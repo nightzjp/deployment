@@ -9,6 +9,7 @@ psycopg2-binary = "*"
 channels = "*"
 channels-redis = "*"
 docutils = "*"
+django-redis = "*"
 
 [dev-packages]
 

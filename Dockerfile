@@ -18,4 +18,5 @@ RUN pipenv sync  && pipenv install --dev
 
 RUN chmod +x /app/start.sh
 
-CMD ["sh", "start.sh"]
+ENTRYPOINT ["sh", "start.sh"]
+
